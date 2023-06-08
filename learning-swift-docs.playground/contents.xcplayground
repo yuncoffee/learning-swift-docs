@@ -4,5 +4,6 @@
         <page name='StructuresAndClasses'/>
         <page name='AdoptingCommonProtocols'/>
         <page name='CopyOnWrite'/>
+        <page name='Properties'/>
     </pages>
 </playground>

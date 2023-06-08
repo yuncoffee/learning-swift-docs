@@ -18,6 +18,7 @@ var myLongString2 = myLongString
 address(of: myLongString)
 address(of: myLongString2)
 
+
 myLongString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 address(of: myLongString) // 값이 다른 값으로 바뀌지 않았을 때 메모리값이 바뀌지 않는다.
 
@@ -30,13 +31,13 @@ print(MemoryLayout.size(ofValue: myLongString))
 print(MemoryLayout.size(ofValue: myLongString2))
 
 //MARK: COW(Copy-on-Write) - 일반적인 컬렉션 타입에서의 동작
-var myMidString: String = "abcdefghijklmnopqrstuvwxyzABCDEF" // 32자
+var myMidString: String = "가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라" // 32자
 var myMidString2 = myMidString
 address(of: myMidString)
 address(of: myMidString2)
 
-myMidString = "abcdefghijklmnopqrstuvwxyzABCDEF"
-myMidString2 = "abcdefghijklmnopqrstuvwxyzABCDE"
+myMidString = "가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라"
+myMidString2 = "가나다라마바사아자차카타파하가나다라마바사아자차카타파하"
 address(of: myMidString) // 값이 다른 값으로 바뀌지 않았을 때 메모리값이 바뀌지 않는다.
 address(of: myMidString2) // 값이 다른 값으로 바뀌었을 때 메모리값이 바뀐다.
 print(MemoryLayout.size(ofValue: myMidString))
@@ -47,6 +48,7 @@ var myString: String = "Hello"
 var myString2 = myString
 address(of: myString)
 address(of: myString2)
+
 myString = "Hello"
 myString2 = "World"
 
