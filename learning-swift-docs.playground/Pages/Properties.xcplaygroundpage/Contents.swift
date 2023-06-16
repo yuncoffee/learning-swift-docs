@@ -287,26 +287,80 @@ import Foundation
  */
 
 // MARK: Property Observer
-class StepCounter {
-    var totalSteps: Int = 0 {
-        willSet(newTotalSteps) {
-            print("About to set totalSteps to \(newTotalSteps)")
-        }
-        didSet {
-            if totalSteps > oldValue  {
-                print("Added \(totalSteps - oldValue) steps")
-            }
-        }
+/**
+ class StepCounter {
+     var totalSteps: Int = 0 {
+         willSet(newTotalSteps) {
+             print("About to set totalSteps to \(newTotalSteps)")
+         }
+         didSet {
+             if totalSteps > oldValue  {
+                 print("Added \(totalSteps - oldValue) steps")
+             }
+         }
+     }
+ }
+ let stepCounter = StepCounter()
+ stepCounter.totalSteps = 200
+ // About to set totalSteps to 200
+ // Added 200 steps
+ stepCounter.totalSteps = 360
+ // About to set totalSteps to 360
+ // Added 160 steps
+ stepCounter.totalSteps = 896
+ // About to set totalSteps to 896
+ // Added 536 steps
+ stepCounter.totalSteps = 100 // error;;
+ */
+
+
+//MARK: Property Wrapper
+
+@propertyWrapper
+struct TwelveOrLess {
+    private var number = 0
+    var wrappedValue: Int {
+        get { return number }
+        set { number = min(newValue, 12) }
     }
 }
-let stepCounter = StepCounter()
-stepCounter.totalSteps = 200
-// About to set totalSteps to 200
-// Added 200 steps
-stepCounter.totalSteps = 360
-// About to set totalSteps to 360
-// Added 160 steps
-stepCounter.totalSteps = 896
-// About to set totalSteps to 896
-// Added 536 steps
-stepCounter.totalSteps = 100 // error;;
+
+var a = TwelveOrLess()
+print(a.wrappedValue)
+a.wrappedValue = 15
+a.wrappedValue
+print(a.wrappedValue)
+
+struct SmallRectangle {
+    @TwelveOrLess var height: Int
+    @TwelveOrLess var width: Int
+}
+
+struct SmallRectangle2 {
+    private var _height = TwelveOrLess()
+    private var _width = TwelveOrLess()
+    var height: Int {
+        get { return _height.wrappedValue }
+        set { _height.wrappedValue = newValue }
+    }
+    var width: Int {
+        get { return _width.wrappedValue }
+        set { _width.wrappedValue = newValue }
+    }
+}
+
+
+//var rectangle = SmallRectangle()
+var rectangle = SmallRectangle2()
+print(rectangle.height)
+// Prints "0"
+
+rectangle.height = 10
+print(rectangle.height)
+// Prints "10"
+
+rectangle.height = 24
+print(rectangle.height)
+// Prints "12"
+
+
