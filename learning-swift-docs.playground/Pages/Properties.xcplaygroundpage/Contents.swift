@@ -576,9 +576,14 @@ enum SomeEnumeration {
     }
 }
 class SomeClass {
+    static var number: Int = 6
     static var storedTypeProperty = "Some value."
     static var computedTypeProperty: Int {
-        return 27
+        get {return number}
+        set {number = newValue}
+    }
+    class var overrideableComputedTypeProperty1: String {
+        return "107"
     }
     class var overrideableComputedTypeProperty: Int {
         return 107
@@ -590,3 +595,22 @@ SomeEnumeration.computedTypeProperty
 
 SomeClass.overrideableComputedTypeProperty
 
+SomeClass.computedTypeProperty
+SomeClass.computedTypeProperty = 10
+SomeClass.computedTypeProperty
+
+class OverideSomeClass: SomeClass {
+    override class var overrideableComputedTypeProperty1: String {
+        return "@@@"
+    }
+    
+    override class var overrideableComputedTypeProperty: Int {
+        return 10
+    }
+}
+
+OverideSomeClass.storedTypeProperty
+OverideSomeClass.storedTypeProperty = "100"
+OverideSomeClass.storedTypeProperty
+
+OverideSomeClass.overrideableComputedTypeProperty
